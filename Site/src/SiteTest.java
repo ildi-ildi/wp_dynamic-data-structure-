@@ -31,7 +31,13 @@ public class SiteTest {
         do {
             System.out.println("0: quit");
             System.out.println("1: add page");
+            System.out.println("2: move down");
+            System.out.println("3: move up");
+            System.out.println("4: display current page content");
+            System.out.println("5: display site map");
+
             System.out.println("2: display pages");
+
             option = Input.getInteger("input option: ");
             
             switch (option) {
@@ -46,6 +52,7 @@ public class SiteTest {
                     break;
                 case 2:
 
+
                     System.out.println(site.getCurrent());
                     try {
                         if (site.checkIfHasCurrentDown() == true) {
@@ -59,6 +66,21 @@ public class SiteTest {
                         System.out.println("page down invalid - no match found for page ");
                     }
 
+
+                    System.out.println(site.getCurrent());
+                    try{
+                    if(site.checkIfHasCurrentDown() == true){
+                        String namePage = Input.getString("page name: ");
+                        site.moveDown();
+                        site.findSite(namePage);
+                    }
+                    }catch(Site.PageNotFoundException e){
+                        System.out.println("page down invalid - current page has no links");
+                    }catch(Site.NameNotFoundException e){
+                        System.out.println("page down invalid - no match found for page ");
+                    }
+                    
+
                     break;
                 case 3:
                     site.moveUp();
@@ -67,7 +89,6 @@ public class SiteTest {
                     System.out.println(site.getCurrent());
                     break;
                 case 5:
-
                     System.out.println(site);
                     break;
                 case 0:

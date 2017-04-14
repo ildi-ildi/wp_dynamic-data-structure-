@@ -31,7 +31,8 @@ public class Site {
 public class Site {
     
     public class PageNotFoundException extends Exception{}
-    
+    public class NameNotFoundException extends Exception{}
+
     private class PageNode{
         private String name;
         private PageNode up;
@@ -41,11 +42,17 @@ public class Site {
     
     private PageNode home;
     private PageNode current;
-    
+
+    private PageNode currentPage;
+            
+
     public Site(String homePage){
         this.home = new PageNode();
         this.home.name = homePage;
         this.current = this.home;
+
+        this.currentPage = this.home;
+
     }
     
 
@@ -162,6 +169,9 @@ public class Site {
         newNode.name = name;
         if (this.home.down == null) {
             this.home.down = newNode;
+
+            newNode.up= this.home;
+
         } else {
             this.addSite(newNode,this.home.down);
         }
@@ -174,10 +184,70 @@ public class Site {
         }
             if (current.across == null) {
                 current.across = newNode;
+                newNode.up= this.home;
+
             } else {
                 this.addSite(newNode,current.across);
             }      
         }
+   
+   public String getCurrent(){
+       String currentDetails = new String();
+        currentDetails += this.currentPage.name + "\n";
+        PageNode pageAcross = this.currentPage.down;
+        if ( pageAcross== null ) {
+            currentDetails += "  has no link\n";
+        } else {
+            while (pageAcross != null) {
+                currentDetails += "  " + pageAcross.name + "\n";
+                pageAcross = pageAcross.across;
+            }
+        }
+        
+        return currentDetails;
+   }
+   
+   public Boolean checkIfHasCurrentDown() throws PageNotFoundException{
+       Boolean searching; 
+       if(this.currentPage.down == null){
+           throw new PageNotFoundException();
+       }else{
+           searching = true; //found
+       }
+       return searching;
+   }
+   
+   public void moveDown(){
+       this.currentPage = this.currentPage.down;
+   }
+   
+   public String findSite(String siteName) throws NameNotFoundException{
+       return this.findSite(siteName,this.currentPage);
+   }
+   
+    private String findSite(String siteName, PageNode currentPage) throws NameNotFoundException{
+        
+       String found;
+       if(currentPage != null){
+           
+           if(siteName.compareTo(currentPage.name) == 0){
+               this.currentPage = currentPage;
+               found = currentPage.name;
+           }else{
+               found = this.findSite(siteName,currentPage.across);
+           }
+           
+       }else{
+           moveUp();
+           throw new NameNotFoundException();
+       }
+       
+       return found;
+    }
     
+    public void moveUp(){
+        this.currentPage =this.home;
+    }
+   
 
 }
