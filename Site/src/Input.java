@@ -1,55 +1,54 @@
+
 import java.io.*;
-public class Input{
-    private static BufferedReader input=new BufferedReader(new InputStreamReader(System.in));
-	
-    public static Character getCharacter(String prompt){
+
+public class Input {
+
+    private static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+
+    public static Character getCharacter(String prompt) {
         Character value;
         System.out.print(prompt);
-        try{
-            value=Input.input.readLine().charAt(0);
-        }
-        catch(Exception error){
+        try {
+            value = Input.input.readLine().charAt(0);
+        } catch (Exception error) {
             // error condition
-            value=null;
+            value = null;
         }
         return value;
     }
-    
-    public static Double getDouble(String prompt){
+
+    public static Double getDouble(String prompt) {
         Double value;
         System.out.print(prompt);
-        try{
-            value=Double.parseDouble(Input.input.readLine());
-        }
-        catch(Exception error){
+        try {
+            value = Double.parseDouble(Input.input.readLine());
+        } catch (Exception error) {
             // error condition
             throw new NumberFormatException();
         }
         return value;
     }
-    
-    public static Integer getInteger(String prompt){
+
+    public static Integer getInteger(String prompt) {
         Integer value;
         System.out.print(prompt);
-        try{
-            value=Integer.parseInt(Input.input.readLine());
-        }
-        catch(Exception error){
+        try {
+            value = Integer.parseInt(Input.input.readLine());
+        } catch (Exception error) {
             // error condition
             throw new NumberFormatException();
         }
         return value;
     }
-    
-    public static String getString(String prompt){
+
+    public static String getString(String prompt) {
         String string;
         System.out.print(prompt);
-        try{
-            string=Input.input.readLine();
-        }
-        catch(Exception error){
+        try {
+            string = Input.input.readLine();
+        } catch (Exception error) {
             // error condition
-            string=null;
+            string = null;
         }
         return string;
     }

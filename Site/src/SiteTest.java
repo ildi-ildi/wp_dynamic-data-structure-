@@ -1,11 +1,10 @@
 
 public class SiteTest {
-    
-     public static void main(String[] args){
-         String name = Input.getString("input home page's name: ");
-         Site site = new Site(name);
-         
-         Integer option;
+    public static void main(String[] args) {
+        String name = Input.getString("input home page's name: ");
+        Site site = new Site(name);
+
+        Integer option;
         do {
             System.out.println("0: quit");
             System.out.println("1: add page");
@@ -14,30 +13,30 @@ public class SiteTest {
             System.out.println("4: display current page content");
             System.out.println("5: display site map");
             option = Input.getInteger("input option: ");
-            
+
             switch (option) {
                 case 1:
                     name = Input.getString("input page's name: ");
-                    try{
-                    site.addSite(name);
-                    }catch(Site.PageNotFoundException e){
+                    try {
+                        site.addSite(name);
+                    } catch (Site.PageNotFoundException e) {
                         System.out.println("insert invalid - value not unique");
                     }
                     break;
                 case 2:
                     System.out.println(site.getCurrent());
-                    try{
-                    if(site.checkIfHasCurrentDown() == true){
-                        String namePage = Input.getString("page name: ");
-                        site.moveDown();
-                        site.findSite(namePage);
-                    }
-                    }catch(Site.PageNotFoundException e){
+                    try {
+                        if (site.checkIfHasCurrentDown() == true) {
+                            String namePage = Input.getString("page name: ");
+                            site.moveDown();
+                            site.findSite(namePage);
+                        }
+                    } catch (Site.PageNotFoundException e) {
                         System.out.println("page down invalid - current page has no links");
-                    }catch(Site.NameNotFoundException e){
+                    } catch (Site.NameNotFoundException e) {
                         System.out.println("page down invalid - no match found for page ");
                     }
-                    
+
                     break;
                 case 3:
                     site.moveUp();
@@ -51,6 +50,6 @@ public class SiteTest {
                 case 0:
                     break;
             }
-        }while (option != 0);
-     }
+        } while (option != 0);
+    }
 }
