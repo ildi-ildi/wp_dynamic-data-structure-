@@ -46,7 +46,7 @@ public class Site {
         newNode.name = name;
         if (this.currentPage.down == null) { //mda...
             this.currentPage.down = newNode;
-            newNode.up = this.currentPage.up;
+            newNode.up = this.currentPage;
         } else {
             this.addPage(newNode, this.currentPage.down);
         }
@@ -63,7 +63,7 @@ public class Site {
             this.addPage(newNode, current);
         } else {
             current.across = newNode;
-            newNode.up = this.currentPage.up;
+            newNode.up = this.currentPage;
         }
     }
 
