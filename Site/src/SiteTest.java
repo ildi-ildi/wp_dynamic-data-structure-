@@ -40,7 +40,11 @@ public class SiteTest {
                     
                     break;
                 case 3:
-                    site.moveUp();
+                    try {
+                        site.moveUp();
+                    } catch (Site.TopPageException e) {
+                        System.out.println("page up invalid - home page ");
+                    }
                     break;
                 case 4:
                     System.out.println(site.getCurrent());

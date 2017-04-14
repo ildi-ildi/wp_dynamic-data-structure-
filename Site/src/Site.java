@@ -9,7 +9,10 @@ public class Site {
 
     public class NameNotUniqueException extends Exception {
     }
-
+    
+    public class TopPageException extends Exception {
+    }
+    
     private class PageNode {
 
         private String name;
@@ -19,7 +22,7 @@ public class Site {
     }
 
     private PageNode home;
-    private PageNode current; // for isUnique
+    private PageNode current; 
     private PageNode currentPage;
 
     public Site(String homePage) {
@@ -129,7 +132,7 @@ public class Site {
 
     private String findSite(String siteName, PageNode currentPage) throws NameNotFoundException {
 
-        String found;
+        String found = " ";
         if (currentPage != null) {
 
             if (siteName.compareTo(currentPage.name) == 0) {
@@ -140,15 +143,23 @@ public class Site {
             }
 
         } else {
-            moveUp();
-            throw new NameNotFoundException();
+            try {
+                moveUp();
+                throw new NameNotFoundException();
+            } catch (TopPageException e) {
+                System.out.println("page up invalid - home page ");
+            }
         }
 
         return found;
     }
 
-    public void moveUp() {
-        this.currentPage = this.currentPage.up;
+    public void moveUp() throws TopPageException {
+        if(this.currentPage == this.currentPage.up){
+            throw new TopPageException();
+        }else{
+            this.currentPage = this.currentPage.up;
+        }
     }
 
 }
