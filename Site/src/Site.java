@@ -7,6 +7,9 @@ public class Site {
     public class NameNotFoundException extends Exception {
     }
 
+    public class NameNotUniqueException extends Exception {
+    }
+
     private class PageNode {
 
         private String name;
@@ -16,7 +19,7 @@ public class Site {
     }
 
     private PageNode home;
-    private PageNode current;
+    private PageNode current; // for isUnique
     private PageNode currentPage;
 
     public Site(String homePage) {
@@ -41,7 +44,12 @@ public class Site {
         return pageDetails;
     }
 
-    public void addPage(String name) throws PageNotFoundException {
+    public void addPage(String name) throws NameNotUniqueException {
+
+        if (isUnique(name) == false) {
+            throw new NameNotUniqueException();
+        }
+
         PageNode newNode = new PageNode();
         newNode.name = name;
         if (this.currentPage.down == null) { //mda...
@@ -52,11 +60,7 @@ public class Site {
         }
     }
 
-    private void addPage(PageNode newNode, PageNode current) throws PageNotFoundException {
-
-        if (newNode.name.compareTo(current.name) == 0) {
-            throw new PageNotFoundException();
-        }
+    private void addPage(PageNode newNode, PageNode current) {
 
         if (current.across != null) {
             current = current.across;
@@ -65,6 +69,28 @@ public class Site {
             current.across = newNode;
             newNode.up = this.currentPage;
         }
+    }
+
+    public Boolean isUnique(String pageName) {
+        return this.isUnique(pageName, this.home);
+    }
+
+    private Boolean isUnique(String pageName, PageNode next) {
+
+        Boolean found = true;
+
+        if (found == true) {
+            if (pageName.compareTo(next.name) == 0) {
+                found = false; // found something identical 
+            } else {
+                if (next.down != null) {
+                    found = this.isUnique(pageName, next.down);
+                } else if (next.across != null) {
+                    found = this.isUnique(pageName, next.across);
+                }
+            }
+        }
+        return found;
     }
 
     public String getCurrent() {

@@ -20,7 +20,7 @@ public class SiteTest {
                     name = Input.getString("input page's name: ");
                     try{
                     site.addPage(name);
-                    }catch(Site.PageNotFoundException e){
+                    }catch(Site.NameNotUniqueException e){
                         System.out.println("insert invalid - value not unique");
                     }
                     break;
