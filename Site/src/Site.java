@@ -9,10 +9,10 @@ public class Site {
 
     public class NameNotUniqueException extends Exception {
     }
-    
+
     public class TopPageException extends Exception {
     }
-    
+
     private class PageNode {
 
         private String name;
@@ -22,7 +22,7 @@ public class Site {
     }
 
     private PageNode home;
-    private PageNode current; 
+    private PageNode current;
     private PageNode currentPage;
 
     public Site(String homePage) {
@@ -155,9 +155,9 @@ public class Site {
     }
 
     public void moveUp() throws TopPageException {
-        if(this.currentPage == this.currentPage.up){
+        if (this.currentPage == this.currentPage.up) {
             throw new TopPageException();
-        }else{
+        } else {
             this.currentPage = this.currentPage.up;
         }
     }
