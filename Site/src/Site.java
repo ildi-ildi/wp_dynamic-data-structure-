@@ -41,33 +41,29 @@ public class Site {
         return pageDetails;
     }
 
-    public void addSite(String name) throws PageNotFoundException {
+    public void addPage(String name) throws PageNotFoundException {
         PageNode newNode = new PageNode();
         newNode.name = name;
-        if (this.home == null) { 
-            this.home = newNode;
+        if (this.currentPage.down == null) { //mda...
+            this.currentPage.down = newNode;
+            newNode.up = this.currentPage.up;
         } else {
-            this.addSite(newNode, this.currentPage);
+            this.addPage(newNode, this.currentPage.down);
         }
     }
 
-    private void addSite(PageNode newNode, PageNode current) throws PageNotFoundException {
+    private void addPage(PageNode newNode, PageNode current) throws PageNotFoundException {
 
         if (newNode.name.compareTo(current.name) == 0) {
             throw new PageNotFoundException();
         }
-        if (this.currentPage.down == null) {
-            this.currentPage.down = newNode;
-            newNode.up = this.currentPage.up;
-            current.up = this.currentPage.down;
+
+        if (current.across != null) {
+            current = current.across;
+            this.addPage(newNode, current);
         } else {
-            if (current.across != null) {
-                current = current.across;
-                this.addSite(newNode, current);
-            } else {
-                current.across = newNode;
-                newNode.up = this.currentPage.up;
-            }
+            current.across = newNode;
+            newNode.up = this.currentPage.up;
         }
     }
 
