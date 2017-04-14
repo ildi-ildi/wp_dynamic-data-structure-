@@ -39,11 +39,10 @@ public class Site {
     public void addSite(String name) throws PageNotFoundException{
         PageNode newNode = new PageNode();
         newNode.name = name;
-        if (this.home.down == null) {
-            this.home.down = newNode;
-            newNode.up= this.home;
+        if (this.home == null) { // empthy site, adding first node
+            this.home = newNode;
         } else {
-            this.addSite(newNode,this.home.down);
+            this.addSite(newNode,this.currentPage);
         }
     }
     
@@ -52,14 +51,22 @@ public class Site {
         if (newNode.name.compareTo(current.name) == 0){
             throw new PageNotFoundException();
         }
-            if (current.across == null) {
-                current.across = newNode;
-                newNode.up= this.home;
+            if (this.currentPage.down == null) {
+                this.currentPage.down = newNode;
+                newNode.up= this.currentPage.up;
+                current.up = this.currentPage.down;
             } else {
-                this.addSite(newNode,current.across);
-            }      
+                    if(current.across != null){
+                        current= current.across;
+                        this.addSite(newNode,current);
+                        }else{
+                        current.across = newNode;
+                        newNode.up= this.currentPage.up;
+                        }
+                    }
         }
-    
+   
+   
    
    public String getCurrent(){
        String currentDetails = new String();
@@ -116,7 +123,7 @@ public class Site {
     }
     
     public void moveUp(){
-        this.currentPage =this.home;
+        this.currentPage =this.currentPage.up;
     }
    
 }
