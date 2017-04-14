@@ -44,7 +44,7 @@ public class Site {
     public void addSite(String name) throws PageNotFoundException {
         PageNode newNode = new PageNode();
         newNode.name = name;
-        if (this.home == null) { 
+        if (this.home == null) { // empthy site, adding first node
             this.home = newNode;
         } else {
             this.addSite(newNode, this.currentPage);
