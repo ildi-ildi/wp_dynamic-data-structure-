@@ -2,7 +2,7 @@ public class Site {
     
     public class PageNotFoundException extends Exception{}
     public class NameNotFoundException extends Exception{}
-    
+
     private class PageNode{
         private String name;
         private PageNode up;
@@ -12,13 +12,17 @@ public class Site {
     
     private PageNode home;
     private PageNode current;
+
     private PageNode currentPage;
             
+
     public Site(String homePage){
         this.home = new PageNode();
         this.home.name = homePage;
         this.current = this.home;
+
         this.currentPage = this.home;
+
     }
     
     public String toString() {
@@ -26,7 +30,11 @@ public class Site {
         pageDetails += this.home.name + "\n";
         PageNode pageAcross = this.home.down;
         if (pageAcross == null) {
+
             pageDetails += "  has no links\n";
+
+            pageDetails += "  has no page\n";
+
         } else {
             while (pageAcross != null) {
                 pageDetails += "  " + pageAcross.name + "\n";
@@ -41,7 +49,9 @@ public class Site {
         newNode.name = name;
         if (this.home.down == null) {
             this.home.down = newNode;
+
             newNode.up= this.home;
+
         } else {
             this.addSite(newNode,this.home.down);
         }
@@ -55,11 +65,11 @@ public class Site {
             if (current.across == null) {
                 current.across = newNode;
                 newNode.up= this.home;
+
             } else {
                 this.addSite(newNode,current.across);
             }      
         }
-    
    
    public String getCurrent(){
        String currentDetails = new String();
@@ -120,4 +130,3 @@ public class Site {
     }
    
 }
-

@@ -13,6 +13,9 @@ public class SiteTest {
             System.out.println("3: move up");
             System.out.println("4: display current page content");
             System.out.println("5: display site map");
+
+            System.out.println("2: display pages");
+
             option = Input.getInteger("input option: ");
             
             switch (option) {
