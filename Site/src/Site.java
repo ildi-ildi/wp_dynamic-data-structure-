@@ -49,7 +49,7 @@ public class Site {
 
     public void addPage(String name) throws NameNotUniqueException {
 
-        if (isUnique(name) == false) {
+        if (isUnique(name) == true) {
             throw new NameNotUniqueException();
         }
 
@@ -77,22 +77,34 @@ public class Site {
     public Boolean isUnique(String pageName) {
         return this.isUnique(pageName, this.home);
     }
-
+ //fixed
     private Boolean isUnique(String pageName, PageNode next) {
 
-        Boolean found = true;
+        Boolean found = false;
+        PageNode currentNext = next;
 
-        if (found == true) {
+        if (next != null) {
+
             if (pageName.compareTo(next.name) == 0) {
-                found = false; // found something identical 
+                found = true;
+
             } else {
+
                 if (next.down != null) {
+                    String nametest1 = next.down.name;
                     found = this.isUnique(pageName, next.down);
-                } else if (next.across != null) {
+                }
+
+                if (!found && next.across != null) {
+                    String nametest = next.across.name;
                     found = this.isUnique(pageName, next.across);
                 }
+
             }
+        } else {
+            found = false;
         }
+
         return found;
     }
 
@@ -155,7 +167,7 @@ public class Site {
     }
 
     public void moveUp() throws TopPageException {
-        if (this.currentPage == this.currentPage.up) {
+        if (this.currentPage == this.home) { //top home page
             throw new TopPageException();
         } else {
             this.currentPage = this.currentPage.up;
