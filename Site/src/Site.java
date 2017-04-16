@@ -9,10 +9,10 @@ public class Site {
 
     public class NameNotUniqueException extends Exception {
     }
-    
+
     public class TopPageException extends Exception {
     }
-    
+
     private class PageNode {
 
         private String name;
@@ -22,7 +22,7 @@ public class Site {
     }
 
     private PageNode home;
-    private PageNode current; 
+    private PageNode current;
     private PageNode currentPage;
 
     public Site(String homePage) {
@@ -49,7 +49,7 @@ public class Site {
 
     public void addPage(String name) throws NameNotUniqueException {
 
-        if (isUnique(name) == false) {
+        if (isUnique(name) == true) {
             throw new NameNotUniqueException();
         }
 
@@ -78,21 +78,33 @@ public class Site {
         return this.isUnique(pageName, this.home);
     }
 
-    private Boolean isUnique(String pageName, PageNode next) {
+    private Boolean isUnique(String pageName, PageNode next) { //working version
 
-        Boolean found = true;
+        Boolean found = false;
+        PageNode currentNext = next;
 
-        if (found == true) {
+        if (next != null) {
+
             if (pageName.compareTo(next.name) == 0) {
-                found = false; // found something identical 
+                found = true;
+
             } else {
+
                 if (next.down != null) {
+                    String nametest1 = next.down.name;
                     found = this.isUnique(pageName, next.down);
-                } else if (next.across != null) {
+                }
+
+                if (!found && next.across != null) {
+                    String nametest = next.across.name;
                     found = this.isUnique(pageName, next.across);
                 }
+
             }
+        } else {
+            found = false;
         }
+
         return found;
     }
 
@@ -155,9 +167,9 @@ public class Site {
     }
 
     public void moveUp() throws TopPageException {
-        if(this.currentPage == this.currentPage.up){
+        if (this.currentPage == this.home) { //top home page
             throw new TopPageException();
-        }else{
+        } else {
             this.currentPage = this.currentPage.up;
         }
     }
