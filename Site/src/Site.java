@@ -33,18 +33,46 @@ public class Site {
     }
 
     public String toString() {
-        String pageDetails = new String();
-        pageDetails += this.home.name + "\n";
-        PageNode pageAcross = this.home.down;
-        if (pageAcross == null) {
-            pageDetails += "  has no links\n";
-        } else {
-            while (pageAcross != null) {
-                pageDetails += "  " + pageAcross.name + "\n";
-                pageAcross = pageAcross.across;
+
+        String siteDetails = new String();
+        siteDetails += this.getSite(this.home, 0);
+
+        return siteDetails;
+    }
+
+    private String getSite(PageNode current, Integer level) {
+
+        String details = new String();
+        Integer x = 1;
+
+        if (current != null) {
+
+            details += current.name + "\n";
+
+            if (current.down != null) {
+
+                level++;
+                for (Integer i = 0; i < level; i++) {
+                    details += "   ";
+                }
+
+                details += this.getSite(current.down, level);
+
+                level = level - x;
+            }
+
+            if (current.across != null) {
+                x++;
+
+                for (Integer i = 0; i < level; i++) {
+                    details += "   ";
+                }
+
+                details += this.getSite(current.across, level);
+
             }
         }
-        return pageDetails;
+        return details;
     }
 
     public void addPage(String name) throws NameNotUniqueException {
